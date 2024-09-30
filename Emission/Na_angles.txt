@@ -1,0 +1,4 @@
+label,degrees,minutes,wavelength
+0,180,1,0
+1I,180,3,588.9950
+1D,180,6,588.9950
