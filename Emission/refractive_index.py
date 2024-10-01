@@ -157,4 +157,4 @@ ax.legend(loc = 1, fontsize = 10)
 ax.grid(True, color='#999', linestyle = '--')
 
 plt.savefig('./N-BK7_n_vs_wl.pdf')
-plt.show()
+# plt.show()
