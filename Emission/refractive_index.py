@@ -139,22 +139,30 @@ print(f'B = {popt[1]:.2e},', f'B_rel_STD = {np.sqrt(pcov[1][1]) * 100/ popt[1]:.
 
 
 # Comparison with literature
-# Listdir
-'''listdir = glob.glob('literature/*.CSV')
-for filename in listdir:
-	# filename = 'literature/N-BK7.CSV'
-	df = pd.read_csv(filename)
-	df = df[df['wl'] >= min_wl / 1000][df['wl'] <= max_wl / 1000]
-	# Literature is in um, so we multiply by 1000.
-	wl = df['wl'] * 1000
-	ax.plot(wl, df['n'], label = f"Literatura: {filename.replace('.csv', '').replace('literature/', '')}")
-'''
+filename = 'literature/N-BK7.CSV'
+df = pd.read_csv(filename)
+df = df[df['wl'] >= min_wl / 1000][df['wl'] <= max_wl / 1000]
+# Literature is in um, so we multiply by 1000.
+wl = df['wl'] * 1000
+n = df['n']
 
+# Parameter fit for literature
+popt, pcov = sp.optimize.curve_fit(cauchy_refrac_n, wl, n)
+print(f'A_lit = {popt[0]:.2e},', f'A_rel_STD = {np.sqrt(pcov[0][0]) * 100/ popt[0]:.2e}%')
+print(f'B_lit = {popt[1]:.2e},', f'B_rel_STD = {np.sqrt(pcov[1][1]) * 100/ popt[1]:.2e}%\n')
+
+
+# Plots
+ax.plot(wl, n, color="Green",
+		label=f"Literatura: {filename.replace('.csv', '').replace('literature/', '')}")
+
+
+# Format
 ax.set(xlabel = 'Longitud de onda (nm)', ylabel = 'Índice de refracción',
 		   title = "Índice de refracción de N-BK7 vs Longitud de onda\n" \
 		   "Ajuste: $n(\\lambda) = A + \\frac{B}{\\lambda^2}$")
 ax.legend(loc = 1, fontsize = 10)
 ax.grid(True, color='#999', linestyle = '--')
 
-plt.savefig('./N-BK7_n_vs_wl.pdf')
+plt.savefig('./N-BK7_n_vs_wl_lit.pdf')
 # plt.show()
